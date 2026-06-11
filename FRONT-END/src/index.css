@@ -4,3 +4,8 @@
 * {
   font-family: "Sen", sans-serif;
 }
+
+@theme {
+  --color-primary: #161410;
+  --color-secondary: #F2DAAC;
+}

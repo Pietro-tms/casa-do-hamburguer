@@ -58,9 +58,9 @@ const Login = () => {
   };
 
   return (
-    <div className="flex h-screen w-screen flex-col items-center justify-center bg-[#161410]">
+    <div className="flex h-screen w-screen flex-col items-center justify-center bg-primary">
       <form
-        className="flex flex-col items-center justify-center gap-6 bg-[#161410]"
+        className="flex flex-col items-center justify-center gap-6 bg-primary"
         onSubmit={handleSumit}
       >
         <Link to={"/"}>

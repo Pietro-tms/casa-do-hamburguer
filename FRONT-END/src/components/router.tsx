@@ -5,10 +5,11 @@ import Register from "../pages/Register.tsx";
 import Header from "../components/Header";
 import { Outlet } from "react-router";
 import Pedidos from "../pages/Pedidos.tsx";
+import PublicRoutes from "./PublicRoutes.tsx";
 
 const Layout = () => {
   return (
-    <div className="flex h-screen w-screen flex-col bg-[#161410]">
+    <div className="flex min-h-screen w-full flex-col bg-[#161410]">
       <Header />
       <Outlet />
     </div>
@@ -31,10 +32,18 @@ export const router = createBrowserRouter([
   },
   {
     path: "/login",
-    element: <Login />,
+    element: (
+      <PublicRoutes>
+        <Login />
+      </PublicRoutes>
+    ),
   },
   {
     path: "/register",
-    element: <Register />,
+    element: (
+      <PublicRoutes>
+        <Register/>
+      </PublicRoutes>
+    ),
   },
 ]);

@@ -1,13 +1,18 @@
 import { Router } from "express";
 import { auth, login, logout, register } from "./controller/user-controller.js";
 import { authMiddleware } from "./middleware/auth-middleware.js";
+import getProducts from "./controller/product-controller.js";
 
 export const router = Router();
 
+// Rotas de usuários
 router.post("/login", login);
 
 router.post("/register", register);
 
 router.get("/me", authMiddleware, auth);
 
-router.post("/logout", authMiddleware, logout)
+router.post("/logout", authMiddleware, logout);
+
+//Rotas de Produto
+router.get("/get-products",  getProducts)
