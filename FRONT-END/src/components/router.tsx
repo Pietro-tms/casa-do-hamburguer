@@ -4,7 +4,7 @@ import Login from "../pages/Login.tsx";
 import Register from "../pages/Register.tsx";
 import Header from "../components/Header";
 import { Outlet } from "react-router";
-import Pedidos from "../pages/Pedidos.tsx";
+import Orders from "../pages/Orders.tsx";
 import PublicRoutes from "./PublicRoutes.tsx";
 
 const Layout = () => {
@@ -26,7 +26,7 @@ export const router = createBrowserRouter([
       },
       {
         path: "/pedidos",
-        element: <Pedidos />,
+        element: <Orders />,
       },
     ],
   },

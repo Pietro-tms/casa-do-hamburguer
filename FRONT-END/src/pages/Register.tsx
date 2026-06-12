@@ -15,9 +15,9 @@ const Register = () => {
     e.preventDefault();
 
     try {
-      // Verificações dod dados do FRONT-END antes de serem mandados ao BACAK-END
+      // Verificações dos dados do FRONT-END antes de serem mandados ao BACAK-END
 
-      if (!name || !email || !password || !confirmPassword || !cep) {
+      if (!name.trim() || !email.trim() || !password.trim() || !confirmPassword.trim() || !cep.trim()) {
         setError("Preencha todos os campos");
         return;
       }

@@ -1,7 +1,7 @@
 import { Router } from "express";
 import { auth, login, logout, register } from "./controller/user-controller.js";
 import { authMiddleware } from "./middleware/auth-middleware.js";
-import getProducts from "./controller/product-controller.js";
+import { deleteProducts, getProducts } from "./controller/product-controller.js";
 
 export const router = Router();
 
@@ -16,3 +16,5 @@ router.post("/logout", authMiddleware, logout);
 
 //Rotas de Produto
 router.get("/get-products",  getProducts)
+
+router.delete("/delete-product/:id", deleteProducts)

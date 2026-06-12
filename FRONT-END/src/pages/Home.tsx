@@ -8,17 +8,22 @@ const Home = () => {
   const [products, setProducts] = useState<ProductType[]>([]);
 
   const getProducts = async () => {
-    const response = await fetch("http://localhost:3000/get-products");
+    try {
+      const response = await fetch("http://localhost:3000/get-products");
 
-    const data = await response.json();
-    setProducts(data);
+      const data = await response.json();
+     
+      setProducts(data);
+      return;
+    } catch (error) {
+      console.log(error);
+      return;
+    }
   };
 
   const filteredProducts = products.filter((product) => {
     return product.category === category;
   });
-
-  console.log(filteredProducts)
 
   useEffect(() => {
     getProducts();
@@ -37,7 +42,7 @@ const Home = () => {
         </h1>
       </div>
       <main className="flex flex-col gap-4">
-        {filteredProducts.map((product) => {
+        { filteredProducts.map((product) => {
           return (
             <Product
               id={product.id}
@@ -50,7 +55,9 @@ const Home = () => {
             />
           );
         })}
-        {filteredProducts.length === 0 && <p>Não há produtos dessa categoria</p>}
+        {filteredProducts.length === 0 && (
+          <p>Não há produtos dessa categoria</p>
+        )}
       </main>
     </div>
   );

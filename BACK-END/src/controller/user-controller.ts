@@ -58,7 +58,7 @@ export const register = async (req: Request, res: Response) => {
   try {
     const { name, email, password, cep } = req.body;
 
-    if (!name || !email || !password || !cep) {
+    if (!name.trim() || !email.trim() || !password.trim() ||!cep.trim()) {
       res.status(400).json({ message: "Dado faltante" });
       return;
     }

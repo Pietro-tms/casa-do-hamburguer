@@ -7,7 +7,7 @@ datasource db {
   provider = "postgresql"
 }
 
-model user {
+model User {
   id       String  @id @default(uuid())
   name     String
   email    String  @unique
@@ -16,7 +16,7 @@ model user {
   adm      Boolean @default(false)
 }
 
-model product {
+model Product {
    id       String  @id @default(cuid())
    name     String
    description String

@@ -1,5 +1,5 @@
 import { Calendar, Clock, User } from "lucide-react";
-type TypeCardPedidosProps = {
+type TypeCardOrderProps = {
   id: number;
   name: string;
   date: string;
@@ -8,14 +8,14 @@ type TypeCardPedidosProps = {
   total: number;
 };
 
-const CardPedido = ({
+const CardOrder = ({
   id,
   name,
   date,
   orderTime,
   deliveredTime,
   total,
-}: TypeCardPedidosProps) => {
+}: TypeCardOrderProps) => {
   return (
     <article className="bg-secondary rounded-md p-2 text-[#32343E]">
       <header className="flex justify-between">
@@ -62,4 +62,4 @@ const CardPedido = ({
   );
 };
 
-export default CardPedido;
+export default CardOrder;
