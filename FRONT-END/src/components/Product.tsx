@@ -11,24 +11,49 @@ const Product = ({
   price,
   img,
   category,
+  getProducts,
 }: ProductType) => {
   const { user } = useContext(UserContext);
+  const handleDeleteProduct = async (id: string) => {
+    try {
+      if (!id) {
+        console.log("ID não enviado");
+        return;
+      }
+      const response = await fetch(
+        `http://localhost:3000/delete-product/${id}`,
+        {
+          method: "DELETE",
+          credentials: "include"
+        },
+      );
+
+      if (!response.ok) {
+        console.log("Erro na exclusão do produto");
+        return;
+      }
+
+      getProducts();
+    } catch (error) {
+      console.log(error);
+    }
+  };
 
   return (
     <div className="bg-primary flex w-full flex-row gap-4 px-3 md:w-[737px] md:p-0">
       <img
         src={`./${img}`}
         alt="Imagem do Produto"
-        className="h-21 w-25 md:h-42 md:w-50"
+        className="h-21 w-25 md:h-41 md:w-50"
       />
 
       <div className="flex w-full flex-col gap-1 text-start">
         <div className="flex items-center justify-between">
-          <h1 className="text-sm font-semibold uppercase md:text-lg">{name}</h1>
+          <h1 className="text-md text-blue-7  font-semibold uppercase md:text-lg">{name}</h1>
           {user?.adm && (
             <button
               className="flex cursor-pointer items-center justify-center rounded-md border border-red-500 px-1 text-xs text-red-500 uppercase"
-              onClick={() => alert("Deletou")}
+              onClick={() => handleDeleteProduct(id)}
             >
               Deletar
             </button>

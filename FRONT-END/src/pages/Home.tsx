@@ -11,8 +11,14 @@ const Home = () => {
     try {
       const response = await fetch("http://localhost:3000/get-products");
 
+      if (!response.ok) {
+        console.log("Erro ao buscar produtos");
+        setProducts([]);
+        return;
+      }
+
       const data = await response.json();
-     
+
       setProducts(data);
       return;
     } catch (error) {
@@ -42,7 +48,7 @@ const Home = () => {
         </h1>
       </div>
       <main className="flex flex-col gap-4">
-        { filteredProducts.map((product) => {
+        {filteredProducts.map((product) => {
           return (
             <Product
               id={product.id}
@@ -52,6 +58,7 @@ const Home = () => {
               img={product.img}
               category={product.category}
               key={product.id}
+              getProducts={getProducts}
             />
           );
         })}

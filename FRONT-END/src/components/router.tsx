@@ -42,7 +42,7 @@ export const router = createBrowserRouter([
     path: "/register",
     element: (
       <PublicRoutes>
-        <Register/>
+        <Register />
       </PublicRoutes>
     ),
   },

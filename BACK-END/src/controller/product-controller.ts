@@ -23,9 +23,15 @@ export const deleteProducts = async (
 ) => {
   try {
     const { id } = req.params;
+    /*const { user } = req;
+
+    if (!user?.adm) {
+      res.status(403).json({ message: "Usuário não autorizado" });
+      return;
+    }*/
 
     if (!id) {
-      res.status(400).json({ message: "id não encontrado" });
+      res.status(400).json({ message: "ID não encontrado" });
       return;
     }
 
@@ -38,7 +44,7 @@ export const deleteProducts = async (
     res.status(200).json({ message: "Produto excluido" });
   } catch (error: any) {
     if (error.code === "P2025") {
-      res.status(400).json({ message: "Produto não encontrado" });
+      res.status(404).json({ message: "Produto não encontrado" });
       return;
     }
     res.status(500).json({ message: "Erro no servidor" });

@@ -2,11 +2,13 @@ import { useContext, useEffect, useState } from "react";
 import { Link, useLocation } from "react-router";
 import { UserContext } from "../contexts/UserContext";
 import { LogOut, ShoppingCart, Box, LayoutDashboard, Plus } from "lucide-react";
+import Cart from "./Cart";
 
 const Header = () => {
+  const [isChecking, setIschecking] = useState(true);
+  const [showCart, setShowCart] = useState(false);
   const { user, setUser } = useContext(UserContext);
   const location = useLocation();
-  const [isChecking, setIschecking] = useState(true);
 
   const getNavItemClass = (path: string) => {
     const notSelectedClass =
@@ -26,19 +28,18 @@ const Header = () => {
         credentials: "include",
       });
 
-      
       if (!response.ok) {
-        setIschecking(false)
+        setIschecking(false);
         return;
       }
 
       const data = await response.json();
 
       setUser(data);
-      setIschecking(false)
+      setIschecking(false);
     } catch (error) {
       console.log(error);
-      return
+      return;
     }
   };
 
@@ -61,18 +62,17 @@ const Header = () => {
 
   useEffect(() => {
     handleUserAuth();
-    
   }, []);
 
   if (isChecking) {
     return (
       <header className="bg-primary">
         <div className="mx-auto flex w-full items-center justify-between gap-4 p-3 md:w-[737px] md:p-0">
-           <img
-          src="./logo.png"
-          alt="Logo lanchonete"
-          className="m-1 h-[43px] w-[50px] md:h-[86px] md:w-[100px]"
-        />
+          <img
+            src="./logo.png"
+            alt="Logo lanchonete"
+            className="m-1 h-[43px] w-[50px] md:h-[86px] md:w-[100px]"
+          />
         </div>
       </header>
     );
@@ -80,6 +80,7 @@ const Header = () => {
 
   return (
     <header className="bg-primary">
+      {showCart && <Cart setShowCart={setShowCart}/>}
       <div className="mx-auto flex w-full items-center justify-between gap-4 p-3 md:w-[737px] md:p-0">
         <img
           src="./logo.png"
@@ -108,7 +109,7 @@ const Header = () => {
               </div>
             )}
 
-            <button className="relative cursor-pointer text-white">
+            <button className="relative cursor-pointer text-white" onClick={() => setShowCart(!showCart)}>
               <ShoppingCart size={18} />
               <p className="absolute -top-3 -right-3 flex h-4 w-4 items-center justify-center rounded-2xl bg-[#F2DAAC] text-[#161410]">
                 1
