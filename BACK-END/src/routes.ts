@@ -6,7 +6,7 @@ import {
   deleteProducts,
   getProducts,
 } from "./controller/product-controller.js";
-import { getCartItens } from "./controller/cartItem-controller.js";
+import { createCartItens, getCartItens } from "./controller/cartItem-controller.js";
 
 
 export const router = Router();
@@ -28,3 +28,5 @@ router.delete("/delete-product/:id", authMiddleware, adminMiddleware, deleteProd
 // Rotas do carrinho
 
 router.get("/get-cart-itens", authMiddleware, getCartItens);
+
+router.post("/create-cart-item", authMiddleware, createCartItens);
