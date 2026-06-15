@@ -61,6 +61,7 @@ const Register = () => {
       }
     } catch (error) {
       console.log(error);
+      setError("Ocorreu um erro. Tente novamente mais tarde");
       return;
     }
   };

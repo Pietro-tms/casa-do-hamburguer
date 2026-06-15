@@ -5,5 +5,5 @@ export type ProductType = {
     price: number
     img: string
     category: string
-    getProducts: () => Promise<void>
+    getProducts?: () => Promise<void>
 }

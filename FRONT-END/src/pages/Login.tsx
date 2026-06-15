@@ -15,6 +15,9 @@ const Login = () => {
 
   const handleSumit = async (e: React.SubmitEvent<HTMLFormElement>) => {
     e.preventDefault();
+    
+    try {
+      
 
     if (!email || !password) {
       setError("Preencha todos os campos");
@@ -55,6 +58,9 @@ const Login = () => {
     }
 
     console.log(res.status);
+    } catch (error) {
+      setError("Ocorreu um erro. Tente novamente mais tarde");
+    }
   };
 
   return (

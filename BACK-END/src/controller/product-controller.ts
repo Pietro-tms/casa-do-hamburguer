@@ -23,13 +23,7 @@ export const deleteProducts = async (
 ) => {
   try {
     const { id } = req.params;
-    /*const { user } = req;
-
-    if (!user?.adm) {
-      res.status(403).json({ message: "Usuário não autorizado" });
-      return;
-    }*/
-
+    
     if (!id) {
       res.status(400).json({ message: "ID não encontrado" });
       return;

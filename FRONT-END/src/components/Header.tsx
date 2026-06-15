@@ -39,6 +39,7 @@ const Header = () => {
       setIschecking(false);
     } catch (error) {
       console.log(error);
+      setIschecking(false);
       return;
     }
   };
@@ -80,7 +81,7 @@ const Header = () => {
 
   return (
     <header className="bg-primary">
-      {showCart && <Cart setShowCart={setShowCart}/>}
+      {showCart && <Cart setShowCart={setShowCart} />}
       <div className="mx-auto flex w-full items-center justify-between gap-4 p-3 md:w-[737px] md:p-0">
         <img
           src="./logo.png"
@@ -109,14 +110,17 @@ const Header = () => {
               </div>
             )}
 
-            <button className="relative cursor-pointer text-white" onClick={() => setShowCart(!showCart)}>
+            <button
+              className="relative cursor-pointer text-white"
+              onClick={() => setShowCart(!showCart)}
+            >
               <ShoppingCart size={18} />
               <p className="absolute -top-3 -right-3 flex h-4 w-4 items-center justify-center rounded-2xl bg-[#F2DAAC] text-[#161410]">
                 1
               </p>
             </button>
 
-            <div className="md:text-md flex flex-row items-center gap-2 text-md text-white">
+            <div className="md:text-md text-md flex flex-row items-center gap-2 text-white">
               <p>{user?.name}</p>{" "}
               <button className="flex cursor-pointer items-center">
                 <LogOut size={18} onClick={() => handleLogout()} />
