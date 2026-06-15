@@ -3,12 +3,15 @@ import { Link, useLocation } from "react-router";
 import { UserContext } from "../contexts/UserContext";
 import { LogOut, ShoppingCart, Box, LayoutDashboard, Plus } from "lucide-react";
 import Cart from "./Cart";
+import { CartItemContext } from "../contexts/CarItensContext";
 
 const Header = () => {
   const [isChecking, setIschecking] = useState(true);
   const [showCart, setShowCart] = useState(false);
   const { user, setUser } = useContext(UserContext);
   const location = useLocation();
+  const {cartItems} = useContext(CartItemContext)
+  
 
   const getNavItemClass = (path: string) => {
     const notSelectedClass =
@@ -115,8 +118,8 @@ const Header = () => {
               onClick={() => setShowCart(!showCart)}
             >
               <ShoppingCart size={18} />
-              <p className="absolute -top-3 -right-3 flex h-4 w-4 items-center justify-center rounded-2xl bg-[#F2DAAC] text-[#161410]">
-                1
+              <p className="text-smq absolute -top-3 -right-3 flex h-4 w-4 items-center justify-center rounded-2xl bg-[#F2DAAC] text-[#161410]">
+                {cartItems.length}
               </p>
             </button>
 

@@ -5,4 +5,10 @@ export type CartItemType = {
   productId: string
   userId: string
   product: ProductType
+  setCartItems?: React.Dispatch<React.SetStateAction<undefined>>
+}
+
+export type CartItemContextType = {
+    cartItems: CartItemType[]
+    setCartItems: React.Dispatch<React.SetStateAction<CartItemType[]>>
 }
