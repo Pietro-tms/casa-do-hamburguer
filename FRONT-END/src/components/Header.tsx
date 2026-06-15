@@ -116,7 +116,7 @@ const Header = () => {
               </p>
             </button>
 
-            <div className="md:text-md flex flex-row items-center gap-2 text-sm text-white">
+            <div className="md:text-md flex flex-row items-center gap-2 text-md text-white">
               <p>{user?.name}</p>{" "}
               <button className="flex cursor-pointer items-center">
                 <LogOut size={18} onClick={() => handleLogout()} />
