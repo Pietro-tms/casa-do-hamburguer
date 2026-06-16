@@ -57,7 +57,7 @@ const Header = () => {
       if (!response.ok) {
         return;
       }
-
+      setShowCart(false);
       setUser(undefined);
     } catch (error) {
       console.log(error);
@@ -65,9 +65,7 @@ const Header = () => {
   };
 
   const getCartItemsQuantity = () => {
-    cartItems.forEach((cartItem) =>
-      cartItemsQuantity += cartItem.quantity
-    )
+    cartItems.forEach((cartItem) => (cartItemsQuantity += cartItem.quantity));
   };
 
   getCartItemsQuantity();

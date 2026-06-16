@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import Input from "../components/Input";
 import Button from "../components/Button";
-import { Link } from "react-router";
+import { Link, useNavigate } from "react-router";
 
 const Register = () => {
   const [name, setName] = useState("");
@@ -10,6 +10,7 @@ const Register = () => {
   const [confirmPassword, setConfirmPassword] = useState("");
   const [cep, setCep] = useState("");
   const [error, setError] = useState("");
+  const navigate = useNavigate();
 
   const handleSumit = async (e: React.SubmitEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -50,6 +51,7 @@ const Register = () => {
           setConfirmPassword("");
           setCep("");
           setError("");
+          navigate("/");
           const data = await res.json();
           console.log(data);
           break;
