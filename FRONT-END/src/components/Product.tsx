@@ -12,6 +12,7 @@ const Product = ({
   img,
   category,
   getProducts,
+  getCartItems,
 }: ProductTypeProps) => {
   const { user } = useContext(UserContext);
 
@@ -48,6 +49,8 @@ const Product = ({
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ productId: id }),
       });
+
+      getCartItems();
     } catch (error) {
       console.log(error);
     }
@@ -69,7 +72,7 @@ const Product = ({
           {user?.adm && (
             <button
               className="flex cursor-pointer items-center justify-center rounded-md border border-red-500 px-1 text-xs text-red-500 uppercase"
-              onClick={() => handleDeleteProduct(id)}
+              onClick={() => handleDeleteProduct()}
             >
               Deletar
             </button>

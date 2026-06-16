@@ -1,7 +1,7 @@
 import { X } from "lucide-react";
 import Button from "./Button";
-import { useContext, useEffect} from "react";
 import CartItem from "./CartItem";
+import { useContext, useEffect} from "react";
 import { CartItemContext } from "../contexts/CarItensContext";
 
 const Cart = ({
@@ -9,28 +9,7 @@ const Cart = ({
 }: {
   setShowCart: React.Dispatch<React.SetStateAction<boolean>>;
 }) => {
- const {cartItems, setCartItems} = useContext(CartItemContext)
-
-  const getCartItems = async () => {
-    try {
-      const response = await fetch("http://localhost:3000/get-cart-itens", {
-        credentials: "include",
-      });
-
-      if(!response.ok){
-        console.log("Problema na obtenção de itens do carrinho");
-        return;
-      }
-
-      const data = await response.json();
-      setCartItems(data);
-      console.log(cartItems)
-    } catch (error) {}
-  };
-
-  useEffect(() => {
-    getCartItems();
-  }, [])
+ const {cartItems} = useContext(CartItemContext)
 
   return (
     <div className="bg-secondary absolute right-0 flex h-screen w-[375px] flex-col gap-6 p-5 z-1">
@@ -41,7 +20,7 @@ const Cart = ({
       <main className="flex flex-1 flex-col gap-2">
         {cartItems.map((cartItem) => {
           return(
-            <CartItem name={cartItem.product.name} img={cartItem.product.img} price={cartItem.product.price} id={cartItem.id}/>
+            <CartItem name={cartItem.product.name} img={cartItem.product.img} price={cartItem.product.price} id={cartItem.product.id} quantity={cartItem.quantity}/>
           )
         })}
       </main>

@@ -7,4 +7,7 @@ export type ProductType = {
     category: string
 }
 
-export type ProductTypeProps = ProductType & { getProducts: () => Promise<void>}
+export type ProductTypeProps = ProductType & { 
+    getProducts: () => Promise<void>
+    getCartItems: () => Promise<void>
+}

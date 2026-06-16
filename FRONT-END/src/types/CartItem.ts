@@ -3,6 +3,7 @@ import type { ProductType } from "./Product"
 export type CartItemType = {
   id: string
   productId: string
+  quantity: number
   userId: string
   product: ProductType
   setCartItems?: React.Dispatch<React.SetStateAction<undefined>>

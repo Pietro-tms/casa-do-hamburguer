@@ -10,8 +10,8 @@ const Header = () => {
   const [showCart, setShowCart] = useState(false);
   const { user, setUser } = useContext(UserContext);
   const location = useLocation();
-  const {cartItems} = useContext(CartItemContext)
-  
+  const { cartItems } = useContext(CartItemContext);
+  let cartItemsQuantity = 0;
 
   const getNavItemClass = (path: string) => {
     const notSelectedClass =
@@ -63,6 +63,14 @@ const Header = () => {
       console.log(error);
     }
   };
+
+  const getCartItemsQuantity = () => {
+    cartItems.forEach((cartItem) =>
+      cartItemsQuantity += cartItem.quantity
+    )
+  };
+
+  getCartItemsQuantity();
 
   useEffect(() => {
     handleUserAuth();
@@ -119,7 +127,7 @@ const Header = () => {
             >
               <ShoppingCart size={18} />
               <p className="text-smq absolute -top-3 -right-3 flex h-4 w-4 items-center justify-center rounded-2xl bg-[#F2DAAC] text-[#161410]">
-                {cartItems.length}
+                {cartItemsQuantity}
               </p>
             </button>
 

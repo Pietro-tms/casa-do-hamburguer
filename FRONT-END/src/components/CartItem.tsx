@@ -1,15 +1,53 @@
 import { ChevronLeft, Trash } from "lucide-react";
 import { formatterPrice } from "../utils/formatterPrice";
 import type { ProductType } from "../types/Product";
+import { useContext, useEffect} from "react";
+import { CartItemContext } from "../contexts/CarItensContext";
 
-type CartItemProps = {
+
+type CartItemTypeProps = {
     id: string
     name: string
     price: number
     img: string
+    quantity: number
 }
 
-const CartItem = ({ name, price, img, id }: CartItemProps) => {
+const CartItem = ({ name, price, img, id, quantity }: CartItemTypeProps) => {
+  const {cartItems, setCartItems} = useContext(CartItemContext)
+
+    const getCartItems = async () => {
+    try {
+      const response = await fetch("http://localhost:3000/get-cart-itens", {
+        credentials: "include",
+      });
+
+      if(!response.ok){
+        console.log("Problema na obtenção de itens do carrinho");
+        return;
+      }
+
+      const data = await response.json();
+      setCartItems(data);
+      console.log(cartItems)
+    } catch (error) {}
+  };
+
+   const addCartItem = async () => {
+    try {
+      const response = await fetch("http://localhost:3000/create-cart-item", {
+        method: "POST",
+        credentials: "include",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ productId: id }),
+      });
+
+      getCartItems();
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
   return (
     <article className="flex flex-row gap-3">
       <div>
@@ -28,9 +66,9 @@ const CartItem = ({ name, price, img, id }: CartItemProps) => {
           <button className="text-secondary cursor-pointer rounded-md bg-[#C92A0E] font-bold">
             <ChevronLeft />
           </button>
-          <h1 className="font-bold text-sm">1</h1>
-          <button className=" text-secondary cursor-pointer rounded-md bg-[#C92A0E]">
-            <ChevronLeft className="rotate-180" />
+          <h1 className="font-bold text-sm">{quantity}</h1>
+          <button className=" text-secondary cursor-pointer rounded-md bg-[#C92A0E]" onClick={() => addCartItem()}>
+            <ChevronLeft className="rotate-180"  />
           </button>
         </div>
       </div>
