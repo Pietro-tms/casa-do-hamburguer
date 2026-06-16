@@ -14,7 +14,8 @@ const Product = ({
   getProducts,
 }: ProductTypeProps) => {
   const { user } = useContext(UserContext);
-  const handleDeleteProduct = async (id: string) => {
+
+  const handleDeleteProduct = async () => {
     try {
       if (!id) {
         console.log("ID não enviado");
@@ -24,7 +25,7 @@ const Product = ({
         `http://localhost:3000/delete-product/${id}`,
         {
           method: "DELETE",
-          credentials: "include"
+          credentials: "include",
         },
       );
 
@@ -34,6 +35,19 @@ const Product = ({
       }
 
       getProducts();
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  const addCartItem = async () => {
+    try {
+      const response = await fetch("http://localhost:3000/create-cart-item", {
+        method: "POST",
+        credentials: "include",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ productId: id }),
+      });
     } catch (error) {
       console.log(error);
     }
@@ -49,7 +63,9 @@ const Product = ({
 
       <div className="flex w-full flex-col gap-1 text-start">
         <div className="flex items-center justify-between">
-          <h1 className="text-md text-blue-7  font-semibold uppercase md:text-lg">{name}</h1>
+          <h1 className="text-md text-blue-7 font-semibold uppercase md:text-lg">
+            {name}
+          </h1>
           {user?.adm && (
             <button
               className="flex cursor-pointer items-center justify-center rounded-md border border-red-500 px-1 text-xs text-red-500 uppercase"
@@ -66,7 +82,11 @@ const Product = ({
           <h3 className="text-secondary text-sm font-semibold md:text-base">
             {formatterPrice(price)}
           </h3>
-          <ShoppingCart className="cursor-pointer" size={18} />
+          <ShoppingCart
+            className="cursor-pointer"
+            size={18}
+            onClick={() => addCartItem()}
+          />
         </div>
         <div></div>
       </div>

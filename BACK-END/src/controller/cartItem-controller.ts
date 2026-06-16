@@ -21,7 +21,7 @@ export const createCartItens = async (req: Request, res: Response) => {
   try {
     const { user } = req;
     const { productId } = req.body;
-
+  
     if (!productId){
       res.status(400).json({message: "productId é obrigatório"})
     }
