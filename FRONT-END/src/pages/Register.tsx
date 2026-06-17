@@ -51,7 +51,7 @@ const Register = () => {
           setConfirmPassword("");
           setCep("");
           setError("");
-          navigate("/");
+          navigate("/login");
           const data = await res.json();
           console.log(data);
           break;
