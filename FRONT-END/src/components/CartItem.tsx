@@ -77,7 +77,9 @@ const CartItem = ({
 
   const updateCartItem = async (id: string, quantity: number) => {
     try {
-      console.log(id);
+      if (quantity <= 0) {
+        return;
+      }
       const response = await fetch(
         `http://localhost:3000/update-cart-item/${id}`,
         {

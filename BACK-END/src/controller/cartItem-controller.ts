@@ -50,7 +50,7 @@ export const createCartItem = async (req: Request, res: Response) => {
 
     res.status(StatusCode).json(cartItem);
   } catch (error) {
-    console.log(error)
+    console.log(error);
     res.status(500).json({ message: "Erro no servidor" });
   }
 };
@@ -92,19 +92,8 @@ export const updateCartItemQuantity = async (
     const { id } = req.params;
     const { quantity } = req.body;
 
-    if (quantity < 0) {
-      res.status(400).json({message: "Quantidade inválida"});
-      return;
-    }
-
-    if (quantity === 0) {
-      await prisma.cartItem.delete({
-        where: {
-          id,
-        },
-      });
-
-      res.status(200).json({ mesage: "CartItem excluído" });
+    if (quantity <= 0) {
+      res.status(400).json({ message: "Quantidade inválida" });
       return;
     }
 
@@ -115,7 +104,7 @@ export const updateCartItemQuantity = async (
 
     res.status(200).json({ message: "Quantity do cartItem alterada" });
   } catch (error) {
-    console.log(error)
+    console.log(error);
     res.status(500).json({ message: "Erro no servidor" });
     return;
   }

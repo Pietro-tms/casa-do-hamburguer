@@ -3,6 +3,7 @@ import type { ProductTypeProps } from "../types/Product";
 import { formatterPrice } from "../utils/formatterPrice";
 import { UserContext } from "../contexts/UserContext";
 import { useContext } from "react";
+import Button from "./Button";
 
 const Product = ({
   id,
@@ -16,7 +17,7 @@ const Product = ({
 }: ProductTypeProps) => {
   const { user } = useContext(UserContext);
 
-  const handleDeleteProduct = async (id:string) => {
+  const handleDeleteProduct = async (id: string) => {
     try {
       if (!id) {
         console.log("ID não enviado");
@@ -85,6 +86,7 @@ const Product = ({
           <h3 className="text-secondary text-sm font-semibold md:text-base">
             {formatterPrice(price)}
           </h3>
+
           <ShoppingCart
             className="cursor-pointer"
             size={18}
