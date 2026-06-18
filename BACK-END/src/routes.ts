@@ -6,7 +6,7 @@ import {
   deleteProducts,
   getProducts,
 } from "./controller/product-controller.js";
-import { createCartItens, getCartItens } from "./controller/cartItem-controller.js";
+import { deleteCartItem, createCartItem, getCartItems, updateCartItemQuantity } from "./controller/cartItem-controller.js";
 
 
 export const router = Router();
@@ -27,6 +27,12 @@ router.delete("/delete-product/:id", authMiddleware, adminMiddleware, deleteProd
 
 // Rotas do carrinho
 
-router.get("/get-cart-itens", authMiddleware, getCartItens);
+router.get("/get-cart-itens", authMiddleware, getCartItems);
 
-router.post("/create-cart-item", authMiddleware, createCartItens);
+router.post("/create-cart-item", authMiddleware, createCartItem);
+
+router.delete("/delete-cart-item/:id", authMiddleware, deleteCartItem);
+
+router.put("/update-cart-item/:id", authMiddleware, updateCartItemQuantity);
+
+

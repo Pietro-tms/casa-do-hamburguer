@@ -16,7 +16,7 @@ const Product = ({
 }: ProductTypeProps) => {
   const { user } = useContext(UserContext);
 
-  const handleDeleteProduct = async () => {
+  const handleDeleteProduct = async (id:string) => {
     try {
       if (!id) {
         console.log("ID não enviado");
@@ -72,7 +72,7 @@ const Product = ({
           {user?.adm && (
             <button
               className="flex cursor-pointer items-center justify-center rounded-md border border-red-500 px-1 text-xs text-red-500 uppercase"
-              onClick={() => handleDeleteProduct()}
+              onClick={() => handleDeleteProduct(id)}
             >
               Deletar
             </button>

@@ -23,6 +23,7 @@ export const deleteProducts = async (
 ) => {
   try {
     const { id } = req.params;
+    console.log(id)
     
     if (!id) {
       res.status(400).json({ message: "ID não encontrado" });
@@ -41,6 +42,7 @@ export const deleteProducts = async (
       res.status(404).json({ message: "Produto não encontrado" });
       return;
     }
+    console.log(error)
     res.status(500).json({ message: "Erro no servidor" });
     return;
   }

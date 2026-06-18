@@ -20,7 +20,7 @@ const Cart = ({
       <main className="flex flex-1 flex-col gap-2">
         {cartItems.map((cartItem) => {
           return(
-            <CartItem name={cartItem.product.name} img={cartItem.product.img} price={cartItem.product.price} id={cartItem.product.id} quantity={cartItem.quantity}/>
+            <CartItem name={cartItem.product.name} img={cartItem.product.img} price={cartItem.product.price} id={cartItem.id} productId={cartItem.product.id} quantity={cartItem.quantity}/>
           )
         })}
       </main>
