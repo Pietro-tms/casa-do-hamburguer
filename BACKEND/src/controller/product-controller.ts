@@ -23,8 +23,9 @@ export const deleteProducts = async (
 ) => {
   try {
     const { id } = req.params;
-    console.log(id)
-    
+    const { productId } = req.body;
+    console.log(id);
+
     if (!id) {
       res.status(400).json({ message: "ID não encontrado" });
       return;
@@ -36,13 +37,17 @@ export const deleteProducts = async (
       },
     });
 
+    /*await prisma.cartItem.deleteMany({
+      where: { productId: productId },
+    });*/
+
     res.status(200).json({ message: "Produto excluido" });
   } catch (error: any) {
     if (error.code === "P2025") {
       res.status(404).json({ message: "Produto não encontrado" });
       return;
     }
-    console.log(error)
+    console.log(error);
     res.status(500).json({ message: "Erro no servidor" });
     return;
   }

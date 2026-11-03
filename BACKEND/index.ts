@@ -9,9 +9,10 @@ export const app = express();
 app.use(express.json());
 app.use(cookieParser())
 app.use(cors({
-  origin: "http://localhost:5173",
+  origin: "http://localhost:5174",
   credentials: true
 }));
+
 app.use(router);
 
 conection();
