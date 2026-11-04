@@ -1,12 +1,12 @@
 import { Router } from "express";
-import { auth, login, logout, register } from "./controller/user-controller.js";
-import { authMiddleware } from "./middleware/auth-middleware.js";
-import { adminMiddleware } from "./middleware/admin-middleware.js";
+import { auth, login, logout, register } from "./controller/user.controller.js";
+import { authMiddleware } from "./middleware/auth.middleware.js";
+import { adminMiddleware } from "./middleware/admin.middleware.js";
 import {
   deleteProducts,
   getProducts,
-} from "./controller/product-controller.js";
-import { deleteCartItem, createCartItem, getCartItems, updateCartItemQuantity } from "./controller/cartItem-controller.js";
+} from "./controller/product.controller.js";
+import { deleteCartItem, createCartItem, getCartItems, updateCartItemQuantity } from "./controller/cartItem.controller.js";
 
 
 export const router = Router();

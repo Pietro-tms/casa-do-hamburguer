@@ -2,6 +2,8 @@ import type { Request, Response } from "express";
 import bcrypt from "bcrypt";
 import { prisma } from "../db.js";
 import jwt from "jsonwebtoken";
+import { loginService } from "../service/user.service.js";
+import { InvalidCredentialsError, UserNotFoundError } from "../error/error.js";
 
 export const login = async (req: Request, res: Response) => {
   try {
@@ -12,43 +14,24 @@ export const login = async (req: Request, res: Response) => {
       return;
     }
 
-    const user = await prisma.user.findFirst({
-      where: { email },
-    });
-
-    if (!user) {
-      res.status(404).json({ message: "Usuário não encontrado" });
-      return;
-    }
-
-    const match = await bcrypt.compare(password, user?.password);
-
-    if (!match) {
-      res.status(401).json({ message: "Senha incorreta" });
-      return;
-    }
-
-    const userInfos = {
-      id: user.id,
-      name: user.name,
-      email: user.email,
-      cep: user.cep,
-      adm: user.adm
-    };
-
-    if (!process.env.JWT_SECRET) {
-      return;
-    }
-
-    const token = jwt.sign(userInfos, process.env.JWT_SECRET);
+    const token = await loginService(email, password);
 
     res.cookie("user", token, {
       maxAge: 18000000, // milissegundos
     });
 
-    res.status(200).json(userInfos);
+    res.status(200).json({ message: "Login realizado com sucesso", token });
   } catch (error) {
+    if (error instanceof UserNotFoundError) {
+      res.status(404).json({ message: error.message });
+      return;
+    }
+    if (error instanceof InvalidCredentialsError) {
+      res.status(401).json({ message: error.message });
+      return;
+    }
     res.status(500).json({ message: "Erro no servidor" });
+    console.log(error);
     return;
   }
 };
@@ -57,7 +40,7 @@ export const register = async (req: Request, res: Response) => {
   try {
     const { name, email, password, cep } = req.body;
 
-    if (!name.trim() || !email.trim() || !password.trim() ||!cep.trim()) {
+    if (!name.trim() || !email.trim() || !password.trim() || !cep.trim()) {
       res.status(400).json({ message: "Dado faltante" });
       return;
     }
@@ -101,13 +84,10 @@ export const auth = async (req: Request, res: Response) => {
 };
 
 export const logout = async (req: Request, res: Response) => {
-  try {  
-
-       res.clearCookie("user").status(200).json({message: "Usuário deslogado"})
-   
+  try {
+    res.clearCookie("user").status(200).json({ message: "Usuário deslogado" });
   } catch (error) {
     res.status(500).json({ message: "Erro no servidor" });
     return;
   }
-
-}
+};
