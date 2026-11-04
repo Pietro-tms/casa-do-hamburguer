@@ -8,4 +8,10 @@
 @theme {
   --color-primary: #161410;
   --color-secondary: #F2DAAC;
+  --color-action: #C92A0E;
+  --color-surface: #FFFFFF;
+  --color-content: #32343E;
+  --color-content-muted: #848484;
+  --color-content-inverse: var(--color-surface);
+  --color-danger: oklch(63.7% 0.237 25.331);
 }

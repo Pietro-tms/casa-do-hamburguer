@@ -87,7 +87,7 @@ const Login = () => {
             onChange={(e) => setPasword(e.target.value)}
             required
           ></Input>
-          <p className="text-red-500">{error}</p>
+          <p className="text-danger">{error}</p>
         </section>
         <section className="flex w-full flex-col gap-1.5">
           <Button title="Login" type="submit" />

@@ -113,7 +113,7 @@ const Register = () => {
             onChange={(e) => setCep(e.target.value)}
             required
           ></Input>
-          <p className="text-sm text-red-500">{error}</p>
+          <p className="text-sm text-danger">{error}</p>
         </section>
 
         <section className="flex w-full flex-col gap-1.5">

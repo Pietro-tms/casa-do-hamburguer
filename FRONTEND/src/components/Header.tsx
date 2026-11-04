@@ -15,9 +15,9 @@ const Header = () => {
 
   const getNavItemClass = (path: string) => {
     const notSelectedClass =
-      "text-secondary flex h-[30px] w-[30px] cursor-pointer items-center justify-center rounded-sm border-2 border-[#F2DAAC] md:h-[35px] md:w-[35px]";
+      "text-secondary flex h-[30px] w-[30px] cursor-pointer items-center justify-center rounded-sm border-2 border-secondary md:h-[35px] md:w-[35px]";
     const selectedClass =
-      "bg-secondary text-primary flex h-[30px] w-[30px] cursor-pointer items-center justify-center rounded-sm border-2 border-[#F2DAAC] md:h-[35px] md:w-[35px]";
+      "bg-secondary text-primary flex h-[30px] w-[30px] cursor-pointer items-center justify-center rounded-sm border-2 border-secondary md:h-[35px] md:w-[35px]";
 
     if (path === location.pathname) {
       return selectedClass;
@@ -113,23 +113,23 @@ const Header = () => {
                   </button>
                 </Link>
 
-                <button className="flex h-[30px] w-[30px] cursor-pointer items-center justify-center rounded-sm border-2 text-[#F2DAAC] md:h-[35px] md:w-[35px]">
+                <button className="flex h-[30px] w-[30px] cursor-pointer items-center justify-center rounded-sm border-2 text-secondary md:h-[35px] md:w-[35px]">
                   <Plus />
                 </button>
               </div>
             )}
 
             <button
-              className="relative cursor-pointer text-white"
+              className="relative cursor-pointer text-content-inverse"
               onClick={() => setShowCart(!showCart)}
             >
               <ShoppingCart size={18} />
-              <p className="text-smq absolute -top-3 -right-3 flex h-4 w-4 items-center justify-center rounded-2xl bg-[#F2DAAC] text-[#161410]">
+              <p className="text-smq absolute -top-3 -right-3 flex h-4 w-4 items-center justify-center rounded-2xl bg-secondary text-primary">
                 {cartItemsQuantity}
               </p>
             </button>
 
-            <div className="md:text-md text-md flex flex-row items-center gap-2 text-white">
+            <div className="md:text-md text-md flex flex-row items-center gap-2 text-content-inverse">
               <p>{user?.name}</p>{" "}
               <button className="flex cursor-pointer items-center">
                 <LogOut size={18} onClick={() => handleLogout()} />

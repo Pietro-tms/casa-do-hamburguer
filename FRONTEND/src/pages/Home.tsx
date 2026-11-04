@@ -58,7 +58,7 @@ const Home = () => {
   }, []);
 
   return (
-    <div className="bg-primary mt-2 flex h-full flex-col items-center text-center text-white">
+    <div className="bg-primary mt-2 flex h-full flex-col items-center text-center text-content-inverse">
       <NavBar
         category={category}
         setCategory={setCategory}

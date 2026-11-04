@@ -17,7 +17,7 @@ const CardOrder = ({
   total,
 }: TypeCardOrderProps) => {
   return (
-    <article className="bg-secondary rounded-md p-2 text-[#32343E]">
+    <article className="bg-secondary rounded-md p-2 text-content">
       <header className="flex justify-between">
         <h1>#{id}</h1>
         <select name="" id="" className="cursor-pointer font-bold">
@@ -52,7 +52,7 @@ const CardOrder = ({
           </div>
         </div>
 
-        <div className="mt-2 h-[1.5px] w-full bg-[#32343E]"></div>
+        <div className="mt-2 h-[1.5px] w-full bg-content"></div>
 
         <footer className="flex justify-end font-bold">
           <p>R${total}</p>

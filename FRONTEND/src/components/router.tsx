@@ -9,7 +9,7 @@ import PublicRoutes from "./PublicRoutes.tsx";
 
 const Layout = () => {
   return (
-    <div className="flex min-h-screen w-full flex-col bg-[#161410]">
+    <div className="flex min-h-screen w-full flex-col bg-primary">
       <Header />
       <Outlet />
     </div>

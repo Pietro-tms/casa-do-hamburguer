@@ -5,7 +5,7 @@ const Input = (props: React.InputHTMLAttributes<HTMLInputElement>
   return (
     <input
       {...props}
-      className="color-[#32343E] w-[350px] rounded-md bg-white px-2 py-2 text-sm placeholder-[#32343E] outline-none"
+      className="w-[350px] rounded-md bg-surface px-2 py-2 text-sm placeholder-content outline-none"
     />
   );
 };

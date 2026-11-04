@@ -22,7 +22,7 @@ const PublicRoutes = ({ children }: { children: ReactNode }) => {
   }, []);
   if (isChecking)
     return (
-      <div className="flex h-screen w-screen flex-col items-center justify-center bg-[#161410]"></div>
+      <div className="flex h-screen w-screen flex-col items-center justify-center bg-primary"></div>
     );
 
   return <>{children}</>;

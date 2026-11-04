@@ -67,19 +67,19 @@ const Product = ({
 
       <div className="flex w-full flex-col gap-1 text-start">
         <div className="flex items-center justify-between">
-          <h1 className="text-md text-blue-7 font-semibold uppercase md:text-lg">
+          <h1 className="text-md font-semibold uppercase md:text-lg">
             {name}
           </h1>
           {user?.adm && (
             <button
-              className="flex cursor-pointer items-center justify-center rounded-md border border-red-500 px-1 text-xs text-red-500 uppercase"
+              className="flex cursor-pointer items-center justify-center rounded-md border border-danger px-1 text-xs text-danger uppercase"
               onClick={() => handleDeleteProduct(id)}
             >
               Deletar
             </button>
           )}
         </div>
-        <p className="flex-1 text-xs font-thin text-[#848484] md:text-base">
+        <p className="flex-1 text-xs font-thin text-content-muted md:text-base">
           {description}
         </p>
         <div className="flex items-center justify-end gap-2">
