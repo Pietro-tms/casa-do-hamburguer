@@ -58,7 +58,7 @@ const Product = ({
   };
 
   return (
-    <div className="bg-primary flex w-full flex-row gap-4 px-3 md:w-[737px] md:p-0">
+    <div className="bg-surface text-content-inverse flex w-full flex-row gap-4 px-3 md:w-[737px] md:p-0">
       <img
         src={`./${img}`}
         alt="Imagem do Produto"
@@ -72,7 +72,7 @@ const Product = ({
           </h1>
           {user?.adm && (
             <button
-              className="flex cursor-pointer items-center justify-center rounded-md border border-danger px-1 text-xs text-danger uppercase"
+              className="flex cursor-pointer items-center justify-center rounded-md border border-danger bg-surface px-1 text-xs text-danger uppercase"
               onClick={() => handleDeleteProduct(id)}
             >
               Deletar

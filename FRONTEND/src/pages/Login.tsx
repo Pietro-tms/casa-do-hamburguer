@@ -70,7 +70,7 @@ const Login = () => {
         onSubmit={handleSumit}
       >
         <Link to={"/"}>
-          <img src="./logo.png" alt="Logo lanchonete" />
+          <img src="/logo-paleta.png" alt="Logo lanchonete" width="100" height="86" />
         </Link>
         <section className="flex w-full flex-col gap-1.5">
           <Input
@@ -87,7 +87,7 @@ const Login = () => {
             onChange={(e) => setPasword(e.target.value)}
             required
           ></Input>
-          <p className="text-danger">{error}</p>
+          <p className="bg-header text-danger">{error}</p>
         </section>
         <section className="flex w-full flex-col gap-1.5">
           <Button title="Login" type="submit" />

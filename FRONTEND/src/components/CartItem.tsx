@@ -111,21 +111,21 @@ const CartItem = ({
       </div>
       <div className="flex h-full flex-1 flex-col items-start justify-between gap-1">
         <div className="flex flex-col gap-0">
-          <h1 className="text-md font-bold text-primary uppercase">{name}</h1>
-          <h2 className="text-md font-semibold text-content-muted">
+          <h1 className="text-md font-bold text-content-inverse uppercase">{name}</h1>
+          <h2 className="text-md font-semibold text-secondary">
             {formatterPrice(price)}
           </h2>
         </div>
         <div className="bg- flex flex-row gap-2">
           <button
-            className="text-secondary cursor-pointer rounded-md bg-action font-bold"
+            className="text-content-inverse cursor-pointer rounded-md bg-action font-bold"
             onClick={() => updateCartItem(id, quantity - 1)}
           >
             <ChevronLeft />
           </button>
           <h1 className="text-sm font-bold">{quantity}</h1>
           <button
-            className="text-secondary cursor-pointer rounded-md bg-action"
+            className="text-content-inverse cursor-pointer rounded-md bg-action"
             onClick={() => addCartItem()}
           >
             <ChevronLeft className="rotate-180" />

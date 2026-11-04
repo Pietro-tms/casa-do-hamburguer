@@ -17,7 +17,7 @@ const Header = () => {
     const notSelectedClass =
       "text-secondary flex h-[30px] w-[30px] cursor-pointer items-center justify-center rounded-sm border-2 border-secondary md:h-[35px] md:w-[35px]";
     const selectedClass =
-      "bg-secondary text-primary flex h-[30px] w-[30px] cursor-pointer items-center justify-center rounded-sm border-2 border-secondary md:h-[35px] md:w-[35px]";
+      "bg-secondary text-content flex h-[30px] w-[30px] cursor-pointer items-center justify-center rounded-sm border-2 border-secondary md:h-[35px] md:w-[35px]";
 
     if (path === location.pathname) {
       return selectedClass;
@@ -76,10 +76,10 @@ const Header = () => {
 
   if (isChecking) {
     return (
-      <header className="bg-primary">
+      <header className="bg-header">
         <div className="mx-auto flex w-full items-center justify-between gap-4 p-3 md:w-[737px] md:p-0">
           <img
-            src="./logo.png"
+            src="/logo-paleta.png"
             alt="Logo lanchonete"
             className="m-1 h-[43px] w-[50px] md:h-[86px] md:w-[100px]"
           />
@@ -89,11 +89,11 @@ const Header = () => {
   }
 
   return (
-    <header className="bg-primary">
+    <header className="bg-header text-content-inverse">
       {showCart && <Cart setShowCart={setShowCart} />}
       <div className="mx-auto flex w-full items-center justify-between gap-4 p-3 md:w-[737px] md:p-0">
         <img
-          src="./logo.png"
+          src="/logo-paleta.png"
           alt="Logo lanchonete"
           className="m-1 h-[43px] w-[50px] md:h-[86px] md:w-[100px]"
         />
@@ -124,7 +124,7 @@ const Header = () => {
               onClick={() => setShowCart(!showCart)}
             >
               <ShoppingCart size={18} />
-              <p className="text-smq absolute -top-3 -right-3 flex h-4 w-4 items-center justify-center rounded-2xl bg-secondary text-primary">
+              <p className="text-smq absolute -top-3 -right-3 flex h-4 w-4 items-center justify-center rounded-2xl bg-secondary text-content">
                 {cartItemsQuantity}
               </p>
             </button>
@@ -138,7 +138,7 @@ const Header = () => {
           </div>
         ) : (
           <Link to={"/login"}>
-            <button className="bg-secondary h-[28px] w-[101px] cursor-pointer rounded-sm md:h-[35px] md:w-[130px]">
+            <button className="bg-secondary text-content h-[28px] w-[101px] cursor-pointer rounded-sm md:h-[35px] md:w-[130px]">
               Entrar
             </button>
           </Link>

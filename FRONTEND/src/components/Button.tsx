@@ -9,7 +9,7 @@ const Button = ({ title, variant="default", ...props }:ButtonType) => {
         if(variant === "default"){
             return "h-[33px] w-full cursor-pointer rounded-md bg-action text-sm font-semibold text-content-inverse"
         } else if(variant === "outline") 
-            return "h-[33px] w-full cursor-pointer rounded-md border-2 border-action bg-surface text-sm font-semibold text-action";
+            return "h-[33px] w-full cursor-pointer rounded-md border-2 border-secondary bg-surface text-sm font-semibold text-secondary";
         
     }
 

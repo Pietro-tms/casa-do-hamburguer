@@ -10,7 +10,7 @@ const NavBar = ({ category, setCategory, categories }: TypeNavBarProps) => {
     const notSelectedClass =
       "text-secondary bg-primary md:text-md h-7 w-24 cursor-pointer rounded-md text-sm font-bold md:h-9 md:w-32 border-2 border-secondary";
     const selectedClass =
-      "text-primary bg-secondary  md:text-md h-7 w-24 cursor-pointer rounded-md text-sm font-bold md:h-9 md:w-32 border-2 border-secondary";
+      "text-content bg-secondary  md:text-md h-7 w-24 cursor-pointer rounded-md text-sm font-bold md:h-9 md:w-32 border-2 border-secondary";
     if (actualCategory === category) {
       return selectedClass;
     }
