@@ -2,8 +2,12 @@ import type { Request, Response } from "express";
 import bcrypt from "bcrypt";
 import { prisma } from "../db.js";
 import jwt from "jsonwebtoken";
-import { loginService } from "../service/user.service.js";
-import { InvalidCredentialsError, UserNotFoundError } from "../error/error.js";
+import { loginService, registerService } from "../service/user.service.js";
+import {
+  EmailAlreadyExistsError,
+  InvalidCredentialsError,
+  UserNotFoundError,
+} from "../error/user.error.js";
 
 export const login = async (req: Request, res: Response) => {
   try {
@@ -45,28 +49,14 @@ export const register = async (req: Request, res: Response) => {
       return;
     }
 
-    const hash = await bcrypt.hash(password, 10);
-
-    const user = await prisma.user.findUnique({
-      where: { email },
-    });
-
-    if (user?.email) {
-      res.status(409).json({ message: "Email já cadastrado" });
-      return;
-    }
-
-    await prisma.user.create({
-      data: {
-        name,
-        email,
-        password: hash,
-        cep,
-      },
-    });
+    await registerService(name, email, password, cep);
 
     res.status(201).json({ message: "Usuário criado" });
   } catch (error) {
+    if (error instanceof EmailAlreadyExistsError) {
+      res.status(409).json({ message: error.message });
+      return;
+    }
     res.status(500).json({ message: "Erro no servidor" });
     return;
   }

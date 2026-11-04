@@ -11,3 +11,10 @@ export class InvalidCredentialsError extends Error {
     this.name = "InvalidCredentialsError";
   }
 }
+
+export class EmailAlreadyExistsError extends Error {
+  constructor(message: string) {
+    super(message);
+    this.name = "EmailAlreadyExistsError";
+  }
+}
