@@ -77,7 +77,7 @@ const Header = () => {
   if (isChecking) {
     return (
       <header className="bg-header">
-        <div className="mx-auto flex w-full items-center justify-between gap-4 p-3 md:w-[737px] md:p-0">
+        <div className="mx-auto flex w-full items-center justify-between gap-4 p-3 md:w-[737px] md:p-0 shadow-header">
           <img
             src="/logo-paleta.png"
             alt="Logo lanchonete"

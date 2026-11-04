@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import Input from "../components/Input";
 import Button from "../components/Button";
 import { Link, useNavigate } from "react-router";
+import Error from "../components/Error";
 
 const Register = () => {
   const [name, setName] = useState("");
@@ -113,7 +114,7 @@ const Register = () => {
             onChange={(e) => setCep(e.target.value)}
             required
           ></Input>
-          <p className="bg-header text-sm text-danger">{error}</p>
+          <Error error={error} />
         </section>
 
         <section className="flex w-full flex-col gap-1.5">

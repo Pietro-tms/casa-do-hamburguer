@@ -4,6 +4,7 @@ import Button from "../components/Button";
 import { Link, useNavigate } from "react-router";
 import { useContext } from "react";
 import { UserContext } from "../contexts/UserContext";
+import Error from "../components/Error";
 
 const Login = () => {
   const [email, setEmail] = useState("");
@@ -87,7 +88,7 @@ const Login = () => {
             onChange={(e) => setPasword(e.target.value)}
             required
           ></Input>
-          <p className="bg-header text-danger">{error}</p>
+          <Error error={error} />
         </section>
         <section className="flex w-full flex-col gap-1.5">
           <Button title="Login" type="submit" />

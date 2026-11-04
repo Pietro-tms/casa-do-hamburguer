@@ -58,11 +58,11 @@ const Product = ({
   };
 
   return (
-    <div className="bg-surface text-content-inverse flex w-full flex-row gap-4 px-3 md:w-[737px] md:p-0">
+    <div className="bg-surface text-content-inverse flex w-full flex-row gap-4 px-3 md:w-[737px] md:p-2 rounded-md">
       <img
         src={`./${img}`}
         alt="Imagem do Produto"
-        className="h-21 w-25 md:h-41 md:w-50"
+        className="h-21 w-25 md:h-41 md:w-50 rounded-md"
       />
 
       <div className="flex w-full flex-col gap-1 text-start">
