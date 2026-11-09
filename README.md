@@ -1,41 +1,54 @@
-# Sistema de Gestão de Pedidos para Hamburguerias
+# Casa do Hambúrguer
 
-Projeto full stack desenvolvido para gerenciamento de pedidos em hamburguerias. A aplicação permite que clientes consultem o cardápio digital e realizem pedidos online, enquanto administradores acompanham e gerenciam o fluxo dos pedidos por meio dos status **pendente**, **entregue** e **cancelado**.
+Projeto full stack para uma hamburgueria, com cardápio digital, cadastro de usuários e carrinho de compras. O sistema ainda está em desenvolvimento.
 
-## Tecnologias Utilizadas
+## Funcionalidades atuais
 
-### Front-end
+- Cadastro e login de usuários
+- Consulta de produtos
+- Adição, remoção e alteração de quantidades no carrinho
+- Exclusão de produtos por administradores
 
-* React
-* TypeScript
-* React Router DOM
-* Tailwind CSS
+O fluxo completo de pedidos ainda está em desenvolvimento.
 
-### Back-end
+## Tecnologias
 
-* Node.js
-* Express.js
-* Arquitetura MVC
+- **Front-end:** React, TypeScript e Tailwind CSS
+- **Back-end:** Node.js e Express
+- **Banco de dados:** PostgreSQL e Prisma
+- **Autenticação:** JWT, cookies e bcrypt
 
-### Banco de Dados
+## Como executar
 
-* PostgreSQL
-* Prisma ORM
+É necessário ter Node.js, npm e PostgreSQL instalados.
 
-### Autenticação e Segurança
+1. Clone o repositório:
 
-* JWT (JSON Web Token)
-* Cookies
-* Bcrypt
+```bash
+git clone https://github.com/Pietro-tms/casa-do-hamburguer.git
+cd casa-do-hamburguer
+```
 
-### Comunicação
+2. Crie o arquivo `BACKEND/.env` com as variáveis `DATABASE_URL` e `JWT_SECRET`.
 
-* Fetch API
+3. Inicie o back-end:
 
-## Objetivos do Projeto
+```bash
+cd BACKEND
+npm install
+npx prisma migrate dev
+npx prisma generate
+npm run dev
+```
 
-O projeto foi desenvolvido com foco em boas práticas de desenvolvimento, organização de código, separação de responsabilidades, construção de APIs REST e implementação de mecanismos de autenticação e segurança.
+4. Em outro terminal, inicie o front-end:
 
-## Status do Projeto
+```bash
+cd FRONTEND
+npm install
+npm run dev
+```
 
-🚧 Este projeto ainda está em desenvolvimento e passando por etapas finais de implementação e refinamento. Algumas funcionalidades podem sofrer alterações até a versão final. Atualmente, a aplicação ainda não possui deploy em ambiente de produção.
+## Status
+
+Em desenvolvimento. O projeto ainda não possui versão publicada para uso em produção.
