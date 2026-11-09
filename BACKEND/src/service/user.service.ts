@@ -6,6 +6,7 @@ import {
   UserNotFoundError,
 } from "../error/user.error.js";
 import { createUser, getUserByEmail } from "../repository/user.repository.js";
+import e from "express";
 
 export const loginService = async (email: string, password: string) => {
   const user = await getUserByEmail(email);
@@ -32,16 +33,21 @@ export const loginService = async (email: string, password: string) => {
     throw new Error("JWT_SECRET não definido");
   }
 
-  const token = jwt.sign(payload, process.env.JWT_SECRET);
+  const token = jwt.sign(payload, process.env.JWT_SECRET, { expiresIn: "5h" });
   return token;
 };
 
-export const registerService = async (
-  name: string,
-  email: string,
-  password: string,
-  cep: string,
-) => {
+export const registerService = async ({
+  name,
+  email,
+  password,
+  cep,
+}: {
+  name: string;
+  email: string;
+  password: string;
+  cep: string;
+}) => {
   const user = await getUserByEmail(email);
 
   const hash = await bcrypt.hash(password, 10);

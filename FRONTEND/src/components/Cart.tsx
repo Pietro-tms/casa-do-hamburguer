@@ -12,7 +12,7 @@ const Cart = ({
  const {cartItems} = useContext(CartItemContext)
 
   return (
-    <div className="bg-surface text-content-inverse absolute right-0 flex h-screen w-[375px] flex-col gap-6 p-5 z-1">
+    <div className="bg-secondary text-content-inverse absolute right-0 flex h-screen w-[375px] flex-col gap-6 p-5 z-1">
       <header className="flex flex-row justify-between">
         <X className="cursor-pointer" onClick={() => setShowCart(false)} />
         <h1 className="font-bold uppercase">Meu carrinho</h1>

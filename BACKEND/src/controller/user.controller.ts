@@ -1,8 +1,6 @@
 import type { Request, Response } from "express";
-import bcrypt from "bcrypt";
-import { prisma } from "../db.js";
-import jwt from "jsonwebtoken";
 import { loginService, registerService } from "../service/user.service.js";
+import { loginSchema, userSchema } from "../schema/user.schema.js";
 import {
   EmailAlreadyExistsError,
   InvalidCredentialsError,
@@ -11,20 +9,28 @@ import {
 
 export const login = async (req: Request, res: Response) => {
   try {
-    const { email, password } = req.body;
+    const ressult = loginSchema.safeParse(req.body);
 
-    if (!email || !password) {
-      res.status(400).json({ message: "Email e senha são obrigatórios" });
+    if (!ressult.success) {
+      const errors = ressult.error.issues.map((issue) => {
+        return {
+          message: issue.message,
+          path: issue.path.join("."),
+        };
+      });
+      res.status(400).json({ message: "Dados inválidos", errors: errors });
       return;
     }
 
-    const token = await loginService(email, password);
+    const token = await loginService(ressult.data.email, ressult.data.password);
 
     res.cookie("user", token, {
-      maxAge: 18000000, // milissegundos
+      maxAge: 18000000, // milissegundos,
+      httpOnly: true,
+      sameSite: "lax",
     });
 
-    res.status(200).json({ message: "Login realizado com sucesso", token });
+    res.status(200).json({ message: "Login realizado com sucesso"});
   } catch (error) {
     if (error instanceof UserNotFoundError) {
       res.status(404).json({ message: error.message });
@@ -42,14 +48,20 @@ export const login = async (req: Request, res: Response) => {
 
 export const register = async (req: Request, res: Response) => {
   try {
-    const { name, email, password, cep } = req.body;
+    const result = userSchema.safeParse(req.body);
 
-    if (!name.trim() || !email.trim() || !password.trim() || !cep.trim()) {
-      res.status(400).json({ message: "Dado faltante" });
+    if (!result.success) {
+      const errors = result.error.issues.map((issue) => {
+        return {
+          message: issue.message,
+          path: issue.path.join("."),
+        };
+      });
+      res.status(400).json({ message: "Dados inválidos", errors: errors });
       return;
     }
 
-    await registerService(name, email, password, cep);
+    await registerService(result.data);
 
     res.status(201).json({ message: "Usuário criado" });
   } catch (error) {

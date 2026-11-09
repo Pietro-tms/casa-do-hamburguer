@@ -10,22 +10,27 @@ const Register = () => {
   const [password, setPasword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
   const [cep, setCep] = useState("");
-  const [error, setError] = useState("");
+  const [error, setError] = useState([{ message: "", path: "" }]);
   const navigate = useNavigate();
 
   const handleSumit = async (e: React.SubmitEvent<HTMLFormElement>) => {
     e.preventDefault();
-
+    setError([{ message: "", path: "" }]);
     try {
-      // Verificações dos dados do FRONT-END antes de serem mandados ao BACAK-END
-
-      if (!name.trim() || !email.trim() || !password.trim() || !confirmPassword.trim() || !cep.trim()) {
-        setError("Preencha todos os campos");
+      // Verificações dos dados do FRONT-END antes de serem mandados ao BACK-END
+      if (
+        !name.trim() ||
+        !email.trim() ||
+        !password.trim() ||
+        !confirmPassword.trim() ||
+        !cep.trim()
+      ) {
+       setError([{ message: "Preencha todos os campos", path: "" }]);
         return;
       }
 
       if (!(password === confirmPassword)) {
-        setError("As senhas precisam ser iguais");
+        setError([{ message: "As senhas precisam ser iguais", path: "password" }]);
         return;
       }
 
@@ -35,15 +40,21 @@ const Register = () => {
         body: JSON.stringify({ name, email, password, cep }),
       });
 
+      console.log("resposta do back-end", res);
       const status = res.status;
 
       // Trata respostas do BACK-END
       switch (status) {
-        case 400:
-          setError("Preencha todos os campos");
+        case 400: {
+          const errorData = await res.json();
+         
+          for (const error of errorData.errors) {
+            setError((prev) => [...prev, { message: error.message, path: error.path }]);
+          }
           break;
+        }
         case 409:
-          setError("E-mail ja cadastrado");
+          setError([{ message: "E-mail já cadastrado", path: "email" }]);
           break;
         case 201:
           setName("");
@@ -51,32 +62,37 @@ const Register = () => {
           setPasword("");
           setConfirmPassword("");
           setCep("");
-          setError("");
+          setError([]);
           navigate("/login");
           const data = await res.json();
           console.log(data);
           break;
         case 500:
-          setError("Ocorreu um erro. Tente novamente mais tarde");
+          setError([{ message: "Ocorreu um erro. Tente novamente mais tarde", path: "" }]);
           break;
         default:
-          setError("Ocorreu um erro. Tente novamente mais tarde");
+          setError([{ message: "Ocorreu um erro. Tente novamente mais tarde", path: "" }]);
       }
     } catch (error) {
       console.log(error);
-      setError("Ocorreu um erro. Tente novamente mais tarde");
+      setError([{ message: "Ocorreu um erro. Tente novamente mais tarde", path: "" }]);
       return;
     }
   };
 
   return (
-    <div className="flex h-screen w-screen flex-col items-center justify-center bg-primary">
+    <div className="bg-primary flex h-screen w-screen flex-col items-center justify-center">
       <form
-        className="flex flex-col items-center justify-center gap-6 bg-primary"
+        className="bg-primary flex w-[350px] flex-col items-center justify-center gap-6"
         onSubmit={handleSumit}
       >
         <Link to={"/"}>
-          <img src="/logo-paleta.png" alt="Logo lanchonete" width="100" height="86" />
+          <img
+            src="/logo-paleta.png"
+            alt="Logo lanchonete"
+            width="100"
+            height="86"
+          />
         </Link>
         <section className="flex w-full flex-col gap-1.5">
           <Input
@@ -86,6 +102,9 @@ const Register = () => {
             onChange={(e) => setName(e.target.value)}
             required
           ></Input>
+          {error.filter((err) => err.path === "name").length > 0 && (
+            <Error error={error.find((err) => err.path === "name")?.message} />
+          )}
           <Input
             placeholder="E-mail"
             type="email"
@@ -93,13 +112,21 @@ const Register = () => {
             onChange={(e) => setEmail(e.target.value)}
             required
           ></Input>
+          {error.filter((err) => err.path === "email").length > 0 && (
+            <Error error={error.find((err) => err.path === "email")?.message} />
+          )}
           <Input
             placeholder="Senha"
             type="password"
             value={password}
             onChange={(e) => setPasword(e.target.value)}
+            minLength={3}
+            title="A senha deve ter pelo menos 3 caracteres"
             required
           ></Input>
+          {error.filter((err) => err.path === "password").length > 0 && (
+            <Error error={error.find((err) => err.path === "password")?.message} />
+          )}
           <Input
             placeholder="Confirme sua Senha"
             type="password"
@@ -107,14 +134,25 @@ const Register = () => {
             onChange={(e) => setConfirmPassword(e.target.value)}
             required
           ></Input>
+          {error.filter((err) => err.path === "password").length > 0 && (
+            <Error error={error.find((err) => err.path === "password")?.message} />
+          )}
           <Input
             placeholder="CEP"
             type="text"
             value={cep}
             onChange={(e) => setCep(e.target.value)}
+            inputMode="numeric"
+            pattern="[0-9]{5}-?[0-9]{3}"
+            title="O CEP deve ter 8 dígitos, com ou sem hífen"
             required
           ></Input>
-          <Error error={error} />
+          {error.filter((err) => err.path === "cep").length > 0 && (
+            <Error error={error.find((err) => err.path === "cep")?.message} />
+          )}
+          {error.filter((err) => err.path === "").length > 0 && (
+            <Error error={error.find((err) => err.path === "")?.message} />
+          )}
         </section>
 
         <section className="flex w-full flex-col gap-1.5">

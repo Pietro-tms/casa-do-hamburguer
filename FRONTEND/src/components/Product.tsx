@@ -44,7 +44,7 @@ const Product = ({
 
   const addCartItem = async () => {
     try {
-      const response = await fetch("http://localhost:3000/create-cart-item", {
+      await fetch("http://localhost:3000/create-cart-item", {
         method: "POST",
         credentials: "include",
         headers: { "Content-Type": "application/json" },
