@@ -2,76 +2,93 @@ import { useState } from "react";
 import Input from "../components/Input";
 import Button from "../components/Button";
 import { Link, useNavigate } from "react-router";
-import { useContext } from "react";
-import { UserContext } from "../contexts/UserContext";
 import Error from "../components/Error";
 
 const Login = () => {
   const [email, setEmail] = useState("");
   const [password, setPasword] = useState("");
-  const [error, setError] = useState("");
-  const { setUser, user } = useContext(UserContext);
+  const [error, setError] = useState([{ message: "", path: "" }]);
+  
 
   const navigate = useNavigate();
 
   const handleSumit = async (e: React.SubmitEvent<HTMLFormElement>) => {
     e.preventDefault();
-    
+    setError([{ message: "", path: "" }]);
     try {
-      
+      if (!email || !password) {
+        setError([{ message: "Preencha todos os campos", path: "" }]);
+        return;
+      }
 
-    if (!email || !password) {
-      setError("Preencha todos os campos");
-      return;
-    }
+      const res = await fetch("http://localhost:3000/login", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ email, password }),
+        credentials: "include",
+      });
 
-    const res = await fetch("http://localhost:3000/login", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ email, password }),
-      credentials: "include",
-    });
+      const errorData = await res.json();
 
-    switch (res.status) {
-      case 400:
-        setError("Preencha todos os campos");
-        break;
-      case 404:
-        setError("Usuário não encontrado");
-        break;
-      case 401:
-        setError("Senha incorreta");
-        break;
-      case 200:
-        setError("");
-        setEmail("");
-        setPasword("");
-        navigate("/");
-        const data = await res.json();
-        setUser(data);
-        console.log(user?.name);
-        break;
-      case 500:
-        setError("Ocorreu um erro. Tente novamente mais tarde");
-        break;
-      default:
-        setError("");
-    }
+      switch (res.status) {
+        case 400:
+          for (const error of errorData.errors) {
+            setError((prev) => [
+              ...prev,
+              { message: error.message, path: error.path },
+            ]);
+          }
+          break;
+        case 404:
+          setError([{ message: errorData.message, path: "" }]);
+          break;
+        case 401:
+          setError([{ message: errorData.message, path: "" }]);
+          break;
+        case 200:
+          setError([]);
+          setEmail("");
+          setPasword("");
+          navigate("/");
+          break;
+        case 500:
+          setError([
+            {
+              message: "Ocorreu um erro. Tente novamente mais tarde",
+              path: "",
+            },
+          ]);
+          break;
+        default:
+          setError([
+            {
+              message: "Ocorreu um erro. Tente novamente mais tarde",
+              path: "",
+            },
+          ]);
+      }
 
-    console.log(res.status);
+      console.log(res.status);
     } catch (error) {
-      setError("Ocorreu um erro. Tente novamente mais tarde");
+      setError([
+        { message: "Ocorreu um erro. Tente novamente mais tarde", path: "" },
+      ]);
     }
   };
 
   return (
-    <div className="flex h-screen w-screen flex-col items-center justify-center bg-primary">
+    <div className="bg-primary flex h-screen w-screen flex-col items-center justify-center">
       <form
-        className="flex flex-col items-center justify-center gap-6 bg-primary"
+        className="bg-primary flex flex-col items-center justify-center gap-6"
         onSubmit={handleSumit}
       >
         <Link to={"/"}>
-          <img src="/logo-paleta.png" alt="Logo lanchonete" width="100" height="86" />
+          <img
+            src="/logo-paleta.png"
+            alt="Logo lanchonete"
+            width="100"
+            height="86"
+          />
         </Link>
         <section className="flex w-full flex-col gap-1.5">
           <Input
@@ -81,6 +98,9 @@ const Login = () => {
             onChange={(e) => setEmail(e.target.value)}
             required
           ></Input>
+          {error.filter((err) => err.path === "email").length > 0 && (
+            <Error error={error.find((err) => err.path === "email")?.message} />
+          )}
           <Input
             placeholder="Senha"
             type="password"
@@ -88,7 +108,14 @@ const Login = () => {
             onChange={(e) => setPasword(e.target.value)}
             required
           ></Input>
-          <Error error={error} />
+          {error.filter((err) => err.path === "password").length > 0 && (
+            <Error
+              error={error.find((err) => err.path === "password")?.message}
+            />
+          )}
+          {error.filter((err) => err.path === "").length > 0 && (
+            <Error error={error.find((err) => err.path === "")?.message} />
+          )}
         </section>
         <section className="flex w-full flex-col gap-1.5">
           <Button title="Login" type="submit" />

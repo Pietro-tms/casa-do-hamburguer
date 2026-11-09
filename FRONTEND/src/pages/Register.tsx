@@ -25,12 +25,14 @@ const Register = () => {
         !confirmPassword.trim() ||
         !cep.trim()
       ) {
-       setError([{ message: "Preencha todos os campos", path: "" }]);
+        setError([{ message: "Preencha todos os campos", path: "" }]);
         return;
       }
 
       if (!(password === confirmPassword)) {
-        setError([{ message: "As senhas precisam ser iguais", path: "password" }]);
+        setError([
+          { message: "As senhas precisam ser iguais", path: "confirmPassword" },
+        ]);
         return;
       }
 
@@ -40,16 +42,18 @@ const Register = () => {
         body: JSON.stringify({ name, email, password, cep }),
       });
 
-      console.log("resposta do back-end", res);
       const status = res.status;
 
       // Trata respostas do BACK-END
       switch (status) {
         case 400: {
           const errorData = await res.json();
-         
+
           for (const error of errorData.errors) {
-            setError((prev) => [...prev, { message: error.message, path: error.path }]);
+            setError((prev) => [
+              ...prev,
+              { message: error.message, path: error.path },
+            ]);
           }
           break;
         }
@@ -68,14 +72,26 @@ const Register = () => {
           console.log(data);
           break;
         case 500:
-          setError([{ message: "Ocorreu um erro. Tente novamente mais tarde", path: "" }]);
+          setError([
+            {
+              message: "Ocorreu um erro. Tente novamente mais tarde",
+              path: "",
+            },
+          ]);
           break;
         default:
-          setError([{ message: "Ocorreu um erro. Tente novamente mais tarde", path: "" }]);
+          setError([
+            {
+              message: "Ocorreu um erro. Tente novamente mais tarde",
+              path: "",
+            },
+          ]);
       }
     } catch (error) {
       console.log(error);
-      setError([{ message: "Ocorreu um erro. Tente novamente mais tarde", path: "" }]);
+      setError([
+        { message: "Ocorreu um erro. Tente novamente mais tarde", path: "" },
+      ]);
       return;
     }
   };
@@ -125,7 +141,9 @@ const Register = () => {
             required
           ></Input>
           {error.filter((err) => err.path === "password").length > 0 && (
-            <Error error={error.find((err) => err.path === "password")?.message} />
+            <Error
+              error={error.find((err) => err.path === "password")?.message}
+            />
           )}
           <Input
             placeholder="Confirme sua Senha"
@@ -134,8 +152,13 @@ const Register = () => {
             onChange={(e) => setConfirmPassword(e.target.value)}
             required
           ></Input>
-          {error.filter((err) => err.path === "password").length > 0 && (
-            <Error error={error.find((err) => err.path === "password")?.message} />
+
+          {error.filter((err) => err.path === "confirmPassword").length > 0 && (
+            <Error
+              error={
+                error.find((err) => err.path === "confirmPassword")?.message
+              }
+            />
           )}
           <Input
             placeholder="CEP"
