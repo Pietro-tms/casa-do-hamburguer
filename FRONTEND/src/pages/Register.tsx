@@ -3,6 +3,7 @@ import Input from "../components/Input";
 import Button from "../components/Button";
 import { Link, useNavigate } from "react-router";
 import Error from "../components/Error";
+import { registerRequest } from "../services/auth.service";
 
 const Register = () => {
   const [name, setName] = useState("");
@@ -36,11 +37,7 @@ const Register = () => {
         return;
       }
 
-      const res = await fetch("http://localhost:3000/register", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ name, email, password, cep }),
-      });
+      const res = await registerRequest(name, email, password, cep);
 
       const status = res.status;
 
