@@ -1,7 +1,7 @@
 import { X } from "lucide-react";
 import Button from "./Button";
 import CartItem from "./CartItem";
-import { useContext, useEffect} from "react";
+import { useContext } from "react";
 import { CartItemContext } from "../contexts/CarItensContext";
 
 const Cart = ({

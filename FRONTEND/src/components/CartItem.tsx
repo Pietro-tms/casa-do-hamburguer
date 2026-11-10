@@ -1,7 +1,6 @@
 import { ChevronLeft, Trash } from "lucide-react";
 import { formatterPrice } from "../utils/formatterPrice";
-import type { ProductType } from "../types/Product";
-import { useContext, useEffect } from "react";
+import { useContext } from "react";
 import { CartItemContext } from "../contexts/CarItensContext";
 
 type CartItemTypeProps = {
@@ -37,12 +36,14 @@ const CartItem = ({
       const data = await response.json();
       setCartItems(data);
       console.log(cartItems);
-    } catch (error) {}
+    } catch (error) {
+      console.error("Problema na obtenção de itens do carrinho", error);
+    }
   };
 
   const addCartItem = async () => {
     try {
-      const response = await fetch("http://localhost:3000/create-cart-item", {
+      await fetch("http://localhost:3000/create-cart-item", {
         method: "POST",
         credentials: "include",
         headers: { "Content-Type": "application/json" },

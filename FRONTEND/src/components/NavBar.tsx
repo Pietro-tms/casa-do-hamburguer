@@ -1,4 +1,3 @@
-import { useState } from "react";
 type TypeNavBarProps = {
   category: string;
   setCategory: React.Dispatch<React.SetStateAction<string>>;

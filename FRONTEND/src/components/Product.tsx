@@ -3,7 +3,6 @@ import type { ProductTypeProps } from "../types/Product";
 import { formatterPrice } from "../utils/formatterPrice";
 import { UserContext } from "../contexts/UserContext";
 import { useContext } from "react";
-import Button from "./Button";
 
 const Product = ({
   id,
@@ -11,7 +10,6 @@ const Product = ({
   description,
   price,
   img,
-  category,
   getProducts,
   getCartItems,
 }: ProductTypeProps) => {
