@@ -1,63 +1,58 @@
-import { useState } from "react";
+import { useState, useContext } from "react";
 import Input from "../components/Input";
 import Button from "../components/Button";
 import { Link, useNavigate } from "react-router";
 import Error from "../components/Error";
+import { loginRequest } from "../services/auth.service";
+import { UserContext } from "../contexts/UserContext";
 
 const Login = () => {
   const [email, setEmail] = useState("");
-  const [password, setPasword] = useState("");
-  const [error, setError] = useState([{ message: "", path: "" }]);
-  
+  const [password, setPassword] = useState("");
+  const [error, setError] = useState<{ message: string; path: string }[]>([]);
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const { refreshUser } = useContext(UserContext);
 
   const navigate = useNavigate();
 
-  const handleSumit = async (e: React.SubmitEvent<HTMLFormElement>) => {
+  const handleSubmit = async (e: React.SubmitEvent<HTMLFormElement>) => {
     e.preventDefault();
-    setError([{ message: "", path: "" }]);
+    if (isSubmitting) return;
+    setError([]);
+
+    if (!email || !password) {
+      setError([{ message: "Preencha todos os campos", path: "" }]);
+      return;
+    }
+
+    setIsSubmitting(true);
     try {
-      if (!email || !password) {
-        setError([{ message: "Preencha todos os campos", path: "" }]);
-        return;
-      }
+      const res = await loginRequest(email, password);
 
-      const res = await fetch("http://localhost:3000/login", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ email, password }),
-        credentials: "include",
-      });
-
-      const errorData = await res.json();
-
-      switch (res.status) {
-        case 400:
-          for (const error of errorData.errors) {
-            setError((prev) => [
-              ...prev,
-              { message: error.message, path: error.path },
-            ]);
-          }
-          break;
-        case 404:
-          setError([{ message: errorData.message, path: "" }]);
-          break;
-        case 401:
-          setError([{ message: errorData.message, path: "" }]);
-          break;
-        case 200:
-          setError([]);
-          setEmail("");
-          setPasword("");
-          navigate("/");
-          break;
-        case 500:
+      if (res.ok) {
+        const currentUser = await refreshUser();
+        if (!currentUser) {
           setError([
             {
-              message: "Ocorreu um erro. Tente novamente mais tarde",
+              message: "Não foi possível confirmar a sessão. Tente novamente.",
               path: "",
             },
           ]);
+          return;
+        }
+
+        navigate("/", { replace: true });
+        return;
+      }
+
+      const errorData = await res.json();
+      switch (res.status) {
+        case 400:
+          setError(errorData.errors);
+          break;
+        case 404:
+        case 401:
+          setError([{ message: errorData.message, path: "" }]);
           break;
         default:
           setError([
@@ -67,12 +62,12 @@ const Login = () => {
             },
           ]);
       }
-
-      console.log(res.status);
-    } catch (error) {
+    } catch {
       setError([
         { message: "Ocorreu um erro. Tente novamente mais tarde", path: "" },
       ]);
+    } finally {
+      setIsSubmitting(false);
     }
   };
 
@@ -80,7 +75,7 @@ const Login = () => {
     <div className="bg-primary flex h-screen w-screen flex-col items-center justify-center">
       <form
         className="bg-primary flex flex-col items-center justify-center gap-6"
-        onSubmit={handleSumit}
+        onSubmit={handleSubmit}
       >
         <Link to={"/"}>
           <img
@@ -105,7 +100,7 @@ const Login = () => {
             placeholder="Senha"
             type="password"
             value={password}
-            onChange={(e) => setPasword(e.target.value)}
+            onChange={(e) => setPassword(e.target.value)}
             required
           ></Input>
           {error.filter((err) => err.path === "password").length > 0 && (
@@ -118,9 +113,17 @@ const Login = () => {
           )}
         </section>
         <section className="flex w-full flex-col gap-1.5">
-          <Button title="Login" type="submit" />
+          <Button
+            title={isSubmitting ? "Entrando..." : "Login"}
+            type="submit"
+            disabled={isSubmitting}
+          />
           <Link to={"/register"}>
-            <Button title="Não tenho uma conta" variant="outline" />
+            <Button
+              title="Não tenho uma conta"
+              variant="outline"
+              type="button"
+            />
           </Link>
         </section>
       </form>

@@ -1,4 +1,4 @@
-import { useContext, useEffect, useState } from "react";
+import { useContext, useState } from "react";
 import { Link, useLocation } from "react-router";
 import { UserContext } from "../contexts/UserContext";
 import { LogOut, ShoppingCart, Box, LayoutDashboard, Plus } from "lucide-react";
@@ -6,11 +6,13 @@ import Cart from "./Cart";
 import { CartItemContext } from "../contexts/CarItensContext";
 
 const Header = () => {
-  const [isChecking, setIschecking] = useState(true);
   const [showCart, setShowCart] = useState(false);
-  const { user, setUser } = useContext(UserContext);
+  const [isLoggingOut, setIsLoggingOut] = useState(false);
+  const [logoutError, setLogoutError] = useState<string | null>(null);
+  const { user, isChecking, logout, authError, initializeAuth } =
+    useContext(UserContext);
   const location = useLocation();
-  const { cartItems } = useContext(CartItemContext);
+  const { cartItems, setCartItems } = useContext(CartItemContext);
   let cartItemsQuantity = 0;
 
   const getNavItemClass = (path: string) => {
@@ -25,42 +27,19 @@ const Header = () => {
     return notSelectedClass;
   };
 
-  const handleUserAuth = async () => {
-    try {
-      const response = await fetch("http://localhost:3000/me", {
-        credentials: "include",
-      });
-
-      if (!response.ok) {
-        setIschecking(false);
-        return;
-      }
-
-      const data = await response.json();
-
-      setUser(data);
-      setIschecking(false);
-    } catch (error) {
-      console.log(error);
-      setIschecking(false);
-      return;
-    }
-  };
-
   const handleLogout = async () => {
-    try {
-      const response = await fetch("http://localhost:3000/logout", {
-        method: "POST",
-        credentials: "include",
-      });
+    if (isLoggingOut) return;
 
-      if (!response.ok) {
-        return;
-      }
+    setIsLoggingOut(true);
+    setLogoutError(null);
+    try {
+      await logout();
       setShowCart(false);
-      setUser(undefined);
-    } catch (error) {
-      console.log(error);
+      setCartItems([]);
+    } catch {
+      setLogoutError("Não foi possível sair. Tente novamente.");
+    } finally {
+      setIsLoggingOut(false);
     }
   };
 
@@ -70,14 +49,10 @@ const Header = () => {
 
   getCartItemsQuantity();
 
-  useEffect(() => {
-    handleUserAuth();
-  }, []);
-
   if (isChecking) {
     return (
       <header className="bg-header">
-        <div className="mx-auto flex w-full items-center justify-between gap-4 p-3 md:w-[737px] md:p-0 shadow-header">
+        <div className="shadow-header mx-auto flex w-full items-center justify-between gap-4 p-3 md:w-[737px] md:p-0">
           <img
             src="/logo-paleta.png"
             alt="Logo lanchonete"
@@ -90,7 +65,7 @@ const Header = () => {
 
   return (
     <header className="bg-header text-content-inverse">
-      {showCart && <Cart setShowCart={setShowCart} />}
+      {showCart && user && <Cart setShowCart={setShowCart} />}
       <div className="mx-auto flex w-full items-center justify-between gap-4 p-3 md:w-[737px] md:p-0">
         <img
           src="/logo-paleta.png"
@@ -113,26 +88,31 @@ const Header = () => {
                   </button>
                 </Link>
 
-                <button className="flex h-[30px] w-[30px] cursor-pointer items-center justify-center rounded-sm border-2 text-secondary md:h-[35px] md:w-[35px]">
+                <button className="text-secondary flex h-[30px] w-[30px] cursor-pointer items-center justify-center rounded-sm border-2 md:h-[35px] md:w-[35px]">
                   <Plus />
                 </button>
               </div>
             )}
 
             <button
-              className="relative cursor-pointer text-content-inverse"
+              className="text-content-inverse relative cursor-pointer"
               onClick={() => setShowCart(!showCart)}
             >
               <ShoppingCart size={18} />
-              <p className="text-smq absolute -top-3 -right-3 flex h-4 w-4 items-center justify-center rounded-2xl bg-secondary text-content">
+              <p className="text-smq bg-secondary text-content absolute -top-3 -right-3 flex h-4 w-4 items-center justify-center rounded-2xl">
                 {cartItemsQuantity}
               </p>
             </button>
 
-            <div className="md:text-md text-md flex flex-row items-center gap-2 text-content-inverse">
+            <div className="md:text-md text-md text-content-inverse flex flex-row items-center gap-2">
               <p>{user?.name}</p>{" "}
-              <button className="flex cursor-pointer items-center">
-                <LogOut size={18} onClick={() => handleLogout()} />
+              <button
+                className="flex cursor-pointer items-center disabled:cursor-wait disabled:opacity-50"
+                onClick={handleLogout}
+                disabled={isLoggingOut}
+                aria-label={isLoggingOut ? "Saindo..." : "Sair"}
+              >
+                <LogOut size={18} />
               </button>
             </div>
           </div>
@@ -144,6 +124,15 @@ const Header = () => {
           </Link>
         )}
       </div>
+      {logoutError && <p role="alert">{logoutError}</p>}
+      {authError && (
+        <div role="alert">
+          <p>{authError}</p>
+          <button type="button" onClick={() => void initializeAuth()}>
+            Tentar novamente
+          </button>
+        </div>
+      )}
     </header>
   );
 };

@@ -1,29 +1,27 @@
-import { useEffect, useState, type ReactNode } from "react";
-import { useNavigate } from "react-router";
+import { useContext, type ReactNode } from "react";
+import { Navigate } from "react-router";
+import { UserContext } from "../contexts/UserContext";
 
 const PublicRoutes = ({ children }: { children: ReactNode }) => {
-  const [isChecking, setIschecking] = useState(true);
-  const cookie = document.cookie;
-  const navigate = useNavigate();
+  const { isChecking, user, authError, initializeAuth } = useContext(UserContext);
 
-  const verifyAuth = (cookie: string) => {
-    const cookies = cookie.split("; ");
-    const userCookie = cookies.find((e) => e.startsWith("user="));
-
-    if (userCookie) {
-      navigate("/", { replace: true });
-      return;
-    }
-    setIschecking(false);
-  };
-
-  useEffect(() => {
-    verifyAuth(cookie);
-  }, []);
   if (isChecking)
     return (
-      <div className="flex h-screen w-screen flex-col items-center justify-center bg-primary"></div>
+      <div className="bg-primary flex h-screen w-screen flex-col items-center justify-center"></div>
     );
+
+  if (authError) {
+    return (
+      <div>
+        <p>{authError}</p>
+        <button onClick={() => void initializeAuth()}>Tentar novamente</button>
+      </div>
+    );
+  }
+
+  if (user) {
+    return <Navigate to="/" replace />;
+  }
 
   return <>{children}</>;
 };
