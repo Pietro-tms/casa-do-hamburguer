@@ -1,9 +1,10 @@
 import type { Request, Response } from "express";
 import { prisma } from "../db.js";
+import { deleteProductService, getProductsService } from "../service/product.service.js";
 
 export const getProducts = async (req: Request, res: Response) => {
   try {
-    const products = await prisma.product.findMany();
+    const products = await getProductsService();
 
     if (products.length === 0) {
       res.status(404).json({ message: "Não foram encontrados produtos" });
@@ -17,29 +18,19 @@ export const getProducts = async (req: Request, res: Response) => {
   }
 };
 
-export const deleteProducts = async (
+export const deleteProduct = async (
   req: Request<{ id: string }>,
   res: Response,
 ) => {
   try {
     const { id } = req.params;
-    const { productId } = req.body;
-    console.log(id);
 
     if (!id) {
-      res.status(400).json({ message: "ID não encontrado" });
+      res.status(400).json({ message: "ID não encontrado na url" });
       return;
     }
 
-    await prisma.product.delete({
-      where: {
-        id: id,
-      },
-    });
-
-    /*await prisma.cartItem.deleteMany({
-      where: { productId: productId },
-    });*/
+    await deleteProductService(id);
 
     res.status(200).json({ message: "Produto excluido" });
   } catch (error: any) {

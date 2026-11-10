@@ -3,7 +3,7 @@ import { auth, login, logout, register } from "./controller/user.controller.js";
 import { authMiddleware } from "./middleware/auth.middleware.js";
 import { adminMiddleware } from "./middleware/admin.middleware.js";
 import {
-  deleteProducts,
+  deleteProduct,
   getProducts,
 } from "./controller/product.controller.js";
 import { deleteCartItem, createCartItem, getCartItems, updateCartItemQuantity } from "./controller/cartItem.controller.js";
@@ -23,7 +23,7 @@ router.post("/logout", authMiddleware, logout);
 //Rotas de Produto
 router.get("/get-products", getProducts);
 
-router.delete("/delete-product/:id", authMiddleware, adminMiddleware, deleteProducts);
+router.delete("/delete-product/:id", authMiddleware, adminMiddleware, deleteProduct);
 
 // Rotas do carrinho
 
